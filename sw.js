@@ -1,4 +1,4 @@
-const CACHE = 'gravity-lab-060';
+const CACHE = 'gravity-lab-061';
 const ASSETS = [
   './', './index.html', './manifest.json', './icon.png', './music.js', './deep-space-drift.m4a'
 ];

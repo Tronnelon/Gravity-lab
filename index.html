@@ -1,7 +1,7 @@
-<!doctype html><html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080e1b"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon.png"><title>Gravity Lab 0.6.4</title><style>
+<!doctype html><html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080e1b"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon.png"><title>Gravity Lab 0.6.5</title><style>
 *{box-sizing:border-box}html,body{margin:0;height:100%;overscroll-behavior:none;background:#080e1b;color:#e8efff;font:14px system-ui}body{display:flex;flex-direction:column;padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom);overflow:hidden}header,.row{display:flex;align-items:center;gap:6px;margin:5px 0}header{justify-content:space-between}header strong{font-size:20px}small,output{color:#a9bad3}canvas{flex:1;min-height:100px;width:100%;touch-action:none;background:#030711;border-radius:12px}button,select{background:#202e45;color:inherit;border:1px solid #394b65;border-radius:8px;padding:9px;font:inherit;min-width:0}button.active{background:#285e9e} .row>*{flex:1} .panel{background:#111d30;border-radius:10px;padding:7px}label{display:grid;grid-template-columns:70px 1fr 58px;align-items:center;gap:6px;min-height:30px}input{width:100%;min-width:0;accent-color:#79baff}output{text-align:right;font-variant-numeric:tabular-nums} [hidden]{display:none!important}#stats{display:flex;justify-content:space-between;font-size:11px;color:#a9bad3;padding:5px}#objects{overflow:auto}#objects button{white-space:nowrap}#play{background:#2867b2} .hint{font-size:11px;color:#a9bad3}header .header-actions{display:flex;align-items:center;gap:6px}
 #music-toggle{padding:5px 8px}#music-toggle svg{display:block;width:18px;height:18px}#music-toggle[aria-pressed="false"] .sound-waves,#music-toggle[aria-pressed="true"] .sound-off{display:none}
-</style></head><body><header><strong>Gravity Lab <small>0.6.4</small></strong><div class="header-actions"><button id="music-toggle" type="button" aria-label="Bakgrunnslyd" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path class="sound-waves" d="M16 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/><path class="sound-off" d="m16 10 4 4m0-4-4 4"/></svg></button><button id="hide">Skjul panel</button></div></header><canvas id="space"></canvas><div id="stats"></div><div class="row"><button id="reset">↺ Reset</button><button id="play">▶ Start</button><button id="add">＋ Objekt</button></div><div id="panel"><div class="row" id="tabs"><button data-tab="object" class="active">Objekt</button><button data-tab="physics">Fysikk</button><button data-tab="lab">Forsøk</button></div><section class="panel" id="object"><div class="row" id="objects"></div><label>Masse<input id="mass" type="range" min="1" max="500"><output id="mv"></output></label><label>Fart<input id="speed" type="range" min="0" max="60" step=".01"><output id="sv"></output></label><label>Retning<input id="angle" type="range" min="0" max="360" step=".1"><output id="av"></output></label><div class="row"><button id="remove">Fjern valgt</button></div><div class="hint">Dra objektet eller pilspissen for å redigere. Dra tomrom for å flytte utsnittet. Bruk to fingre eller rullehjulet for å zoome før start eller i pause.</div></section><section class="panel" id="physics" hidden><label>Radius<input id="physical" type="range" min="1" max="100" value="10"><output id="rv">10%</output></label><div class="row"><button id="collision">Kollisjon: på</button><button id="real">Fysisk størrelse: av</button></div><div class="hint">Velocity Verlet · Adaptivt tidssteg · Forenklede enheter</div></section><section class="panel" id="lab" hidden><div class="row"><select id="preset"><option value="binary">Stjerne og planet</option><option value="moving">Solsystem i bevegelse</option><option value="equal">Dobbeltstjerne</option><option value="three">Trelegemeproblem</option><option value="eight">Åttetallsbane</option><option value="flyby">Nærpassering</option><option value="fall">Fritt fall</option><option value="solar">Solsystemet</option><option value="regulus">Regulus</option><option value="jupiter">Jupiter og fire måner</option><option value="sirius">Sirius A og B</option></select><button id="load">Last</button></div><div id="preset-description" class="hint" hidden></div><div class="row"><button id="save">Lagre forsøk</button><button id="restore">Hent lagret</button></div><div id="notice" class="hint"></div></section></div><label>Volum<input id="music-volume" type="range" min="0" max="100" value="30"><output id="music-level" for="music-volume">30 %</output></label><div id="music-status" class="hint" role="status" hidden></div><label>Tid<input id="time" type="range" min=".25" max="8" step=".25" value="1"><output id="tv">1×</output></label><script>
+</style></head><body><header><strong>Gravity Lab <small>0.6.5</small></strong><div class="header-actions"><button id="music-toggle" type="button" aria-label="Bakgrunnslyd" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path class="sound-waves" d="M16 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/><path class="sound-off" d="m16 10 4 4m0-4-4 4"/></svg></button><button id="hide">Skjul panel</button></div></header><canvas id="space"></canvas><div id="stats"></div><div class="row"><button id="reset">↺ Reset</button><button id="play">▶ Start</button><button id="add">＋ Objekt</button></div><div id="panel"><div class="row" id="tabs"><button data-tab="object" class="active">Objekt</button><button data-tab="physics">Fysikk</button><button data-tab="lab">Forsøk</button></div><section class="panel" id="object"><div class="row" id="objects"></div><label>Masse<input id="mass" type="range" min="1" max="500"><output id="mv"></output></label><label>Fart<input id="speed" type="range" min="0" max="60" step=".01"><output id="sv"></output></label><label>Retning<input id="angle" type="range" min="0" max="360" step=".1"><output id="av"></output></label><div class="row"><button id="remove">Fjern valgt</button></div><div class="hint">Dra objektet eller pilspissen for å redigere. Dra tomrom for å flytte utsnittet. Bruk to fingre eller rullehjulet for å zoome før start eller i pause.</div></section><section class="panel" id="physics" hidden><label>Radius<input id="physical" type="range" min="1" max="100" value="10"><output id="rv">10%</output></label><div class="row"><button id="collision">Kollisjon: på</button><button id="real">Fysisk størrelse: av</button></div><div class="hint">Velocity Verlet · Adaptivt tidssteg · Forenklede enheter</div></section><section class="panel" id="lab" hidden><div class="row"><select id="preset"><option value="binary">Stjerne og planet</option><option value="moving">Solsystem i bevegelse</option><option value="equal">Dobbeltstjerne</option><option value="three">Trelegemeproblem</option><option value="eight">Åttetallsbane</option><option value="flyby">Nærpassering</option><option value="fall">Fritt fall</option><option value="solar">Solsystemet</option><option value="regulus">Regulus</option><option value="jupiter">Jupiter og fire måner</option><option value="sirius">Sirius A og B</option></select><button id="load">Last</button></div><div id="preset-description" class="hint" hidden></div><div class="row"><button id="save">Lagre forsøk</button><button id="restore">Hent lagret</button></div><div id="notice" class="hint"></div></section></div><label>Volum<input id="music-volume" type="range" min="0" max="100" value="30"><output id="music-level" for="music-volume">30 %</output></label><div id="music-status" class="hint" role="status" hidden></div><label>Tid<input id="time" type="range" min=".25" max="8" step=".25" value="1"><output id="tv">1×</output></label><script>
 const $=id=>document.getElementById(id),c=$('space'),ctx=c.getContext('2d'),G=100,eps=.0001,colors=['#ffcb6b','#79baff','#ff829a','#87e2b1','#c9a2ff','#ff9b64','#dce77b','#72e3e6','#a3a4ff'];let init=[],b=[],sel=1,run=false,started=false,t=0,acc=0,last=0,W=360,H=340,base=1,z=1,cx=0,cy=0,returningToAuto=false,collision=true,real=false,history=[],flashes=[],E0=0,Es=1,serial=0,drag=null,pts=new Map(),pinch=null;
 const rad=o=>3+Math.cbrt(o.m)*1.55,phys=o=>rad(o)*+$('physical').value/100,make=(x,y,m,vx,vy,i)=>({x,y,m,vx,vy,id:++serial,color:colors[i%colors.length]});const escapeEvidence = new Map();
 
@@ -9,6 +9,9 @@ const escapeCameraDelay = 10;
 
 function updateEscapeEvidence(elapsed) {
   for (const body of b) {
+    const previous = escapeEvidence.get(body.id);
+    if (previous?.likely) continue;
+
     const rest = b.filter(other => other !== body);
     if (!rest.length) {
       escapeEvidence.delete(body.id);
@@ -20,40 +23,28 @@ function updateEscapeEvidence(elapsed) {
     const dy = body.y - centerOfRest.y;
     const vx = body.vx - centerOfRest.vx;
     const vy = body.vy - centerOfRest.vy;
-    const distance = Math.hypot(dx, dy);
     let potential = 0;
-    let spread = 0;
     for (const other of rest) {
       potential += G * other.m / Math.sqrt((body.x - other.x)**2 + (body.y - other.y)**2 + eps);
-      spread = Math.max(spread, Math.hypot(other.x - centerOfRest.x, other.y - centerOfRest.y));
     }
 
     // Relative energy is exact for a softened pair and an estimate for a group.
     const energy = 0.5 * (vx * vx + vy * vy) - potential * (1 + body.m / centerOfRest.mass);
-    if (energy <= 0 || dx * vx + dy * vy <= 0) {
+    if (energy <= 0) {
       escapeEvidence.delete(body.id);
       continue;
     }
+    if (!previous && dx * vx + dy * vy <= 0) continue;
 
-    const previous = escapeEvidence.get(body.id);
     const yellowSeconds = previous ? previous.yellowSeconds + elapsed : 0;
-    const farSince = distance >= Math.max(100, 4 * spread)
-      ? (previous?.farSince ?? t)
-      : null;
-    escapeEvidence.set(body.id, {
-      farSince,
-      yellowSeconds,
-      likely: yellowSeconds >= escapeCameraDelay && farSince !== null && t - farSince >= 3
-    });
+    escapeEvidence.set(body.id, {yellowSeconds, likely: yellowSeconds >= escapeCameraDelay});
   }
 }
 
 function cameraBodies() {
-  const core = b.filter(body => !escapeEvidence.get(body.id)?.likely);
-  // Keep the full view if there is no identifiable group to follow.
-  return core.length >= 2 ? core : b;
+  return escapeEvidence.size ? b.filter(body => !escapeEvidence.has(body.id)) : b;
 }
-function com(bodies = b){let m=0,x=0,y=0,vx=0,vy=0;for(const o of bodies){m+=o.m;x+=o.m*o.x;y+=o.m*o.y;vx+=o.m*o.vx;vy+=o.m*o.vy}return{mass:m,x:x/m,y:y/m,vx:vx/m,vy:vy/m}}function target(){return com(cameraBodies())}
+function com(bodies = b){let m=0,x=0,y=0,vx=0,vy=0;for(const o of bodies){m+=o.m;x+=o.m*o.x;y+=o.m*o.y;vx+=o.m*o.vx;vy+=o.m*o.vy}return{mass:m,x:x/m,y:y/m,vx:vx/m,vy:vy/m}}function target(){const framed=cameraBodies();return framed.length ? com(framed) : {x:cx,y:cy}}
 function energy(){let k=0,u=0;for(let i=0;i<b.length;i++){let o=b[i];k+=.5*o.m*(o.vx**2+o.vy**2);for(let j=i+1;j<b.length;j++){let d=b[j];u-=G*o.m*d.m/Math.sqrt((o.x-d.x)**2+(o.y-d.y)**2+eps)}}return [k+u,Math.max(k,-u,1)]}function baseline(){[E0,Es]=energy()}function zoomToFit(focus, margin, limit) {
   const halfWidth = W * (0.5 - margin);
   const halfHeight = H * (0.5 - margin);
@@ -103,8 +94,9 @@ function easedEscapeTime(elapsed, framed) {
 
 function updateCamera(elapsed) {
   const framed = cameraBodies();
-  const targetFocus = com(framed);
   const eased = easedEscapeTime(elapsed, framed);
+  if (!framed.length) return;
+  const targetFocus = com(framed);
   const glide = returningToAuto || framed !== b;
   const movement = glide ? 1 - Math.exp(-(returningToAuto ? elapsed : eased) * 1.2) : 1;
   cx += (targetFocus.x - cx) * movement;
@@ -232,7 +224,7 @@ function collide() {
       body.collisionTime = performance.now();
       flashes.push({x:body.x, y:body.y, r:rad(body), t:body.collisionTime});
       b.splice(j, 1);
-      escapeEvidence.clear();
+      escapeEvidence.delete(other.id);
       baseline();
     }
   }
